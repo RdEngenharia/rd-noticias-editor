@@ -1,9 +1,16 @@
 # watermark.spec — PyInstaller build spec for RD Noticias Editor
-from PyInstaller.utils.hooks import collect_all
+from PyInstaller.utils.hooks import collect_all, copy_metadata
 
 block_cipher = None
 
 datas, binaries, hiddenimports = [], [], []
+
+# Include package metadata so importlib.metadata.version() works at runtime
+for pkg in ['imageio', 'imageio_ffmpeg', 'moviepy', 'numpy', 'pillow', 'scipy', 'decorator']:
+    try:
+        datas += copy_metadata(pkg)
+    except Exception:
+        pass
 
 # Bundle FFmpeg binary + librosa data + sounddevice PortAudio DLL
 for pkg in ['imageio_ffmpeg', 'librosa', 'sounddevice', 'numba', 'llvmlite']:
