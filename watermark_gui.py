@@ -20,6 +20,33 @@ def _setup_ffmpeg():
 
 _setup_ffmpeg()
 
+
+def _create_desktop_shortcut():
+    """Cria atalho na área de trabalho na primeira execução do exe."""
+    if not getattr(sys, "frozen", False):
+        return
+    desktop = os.path.join(os.path.expanduser("~"), "Desktop")
+    lnk = os.path.join(desktop, "RD Noticias Editor.lnk")
+    if os.path.exists(lnk):
+        return
+    exe = sys.executable
+    work = os.path.dirname(exe)
+    ps = (
+        f'$s=(New-Object -COM WScript.Shell).CreateShortcut("{lnk}");'
+        f'$s.TargetPath="{exe}";'
+        f'$s.WorkingDirectory="{work}";'
+        f'$s.IconLocation="{exe}";'
+        f'$s.Description="RD Noticias — Editor de Video";'
+        f'$s.Save()'
+    )
+    import subprocess
+    subprocess.run(
+        ["powershell", "-WindowStyle", "Hidden", "-Command", ps],
+        creationflags=0x08000000,
+    )
+
+_create_desktop_shortcut()
+
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
