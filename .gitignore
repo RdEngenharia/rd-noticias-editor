@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# PyInstaller
+build/
+dist/
+*.spec.bak
+
+# Gerados pelo programa
+narration_*.wav
+*_enhanced.wav
+*_pitched.wav
+*_mixed.wav
+video_saida.mp4
+
+# Scratchpad
+*.tmp
